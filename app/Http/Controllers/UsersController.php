@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -13,7 +14,11 @@ class UsersController extends Controller
      */
     public function index()
     {
-        
+        $users = User::all();
+        return $users;
+        //otrs forma directa
+      //  return User::get();
+      //  return response()->json($users);
     }
 
     /**
@@ -23,7 +28,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -34,7 +39,13 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$user = User::create($request->post());
+        //return response()->json([
+        //    'user'=> $user
+        //]);
+            // otra forma
+        $user =new User();
+        $user->create($request->all());
     }
 
     /**
@@ -43,9 +54,10 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        //return response()->json($user);
+        return $user;
     }
 
     /**
@@ -56,7 +68,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -66,9 +78,15 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+       // $user->fill($request->post())->save();
+        //return response()->json([
+         //   'user'=> $user
+        //]);
+        // otra forma ---
+        $user->update($request->all());
+
     }
 
     /**
@@ -77,8 +95,11 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        //return response()->json([
+        //    'mensaje'=> 'usuario eliminado'
+        //]);
     }
 }

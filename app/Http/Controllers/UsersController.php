@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,12 +13,13 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request  $request)
     {
-        $users = User::all();
-        return $users;
+        // $users = User::all();
+        // return $users::paginate(5);
         //otrs forma directa
-      //  return User::get();
+        $per_page=$request->per_page;
+       return User::paginate(5);
       //  return response()->json($users);
     }
 
@@ -37,7 +39,7 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         //$user = User::create($request->post());
         //return response()->json([
@@ -45,7 +47,10 @@ class UsersController extends Controller
         //]);
             // otra forma
         $user =new User();
-        $user->create($request->all());
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = bcrypt($request->get('password'));
+        $user->save();
     }
 
     /**
@@ -78,7 +83,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
        // $user->fill($request->post())->save();
         //return response()->json([

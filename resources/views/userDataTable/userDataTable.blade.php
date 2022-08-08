@@ -3,8 +3,8 @@
 @section('content')
 <div class="container">
     
-  
-   {{-- <userDataTable /> --}}
-   <user />
+  <userdatatable />
+
+   {{-- <user /> --}}
 </div>
 @endsection
